@@ -24,7 +24,7 @@ $("form input:text").focusout(function () {
 
         // start FraudGuard
         var _fg = window._fg = window._fg || {};
-        _fg['_setAccountId'] = '42c2225b-d170-47d2-ad03-16f8c8ef5c92';
+        _fg['_setAccountId'] = '39ba52c6-1fd4-465d-945a-c0b7cb23222e';
         _fg['_setUserId'] = userID;
         _fg['_setSessionId'] = "";
         _fg['_setTrack'] = 'page_view';

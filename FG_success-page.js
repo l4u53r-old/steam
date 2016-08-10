@@ -1,18 +1,5 @@
+// <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 // Get information required by FraudGuard
-
-    // Get user's ip
-    var currentIP;
-
-    var getCurrentIP = function() {
-        $.getJSON("https://api.ipify.org?format=jsonp&callback=?",
-            function(json) {
-                console.log(json.ip);
-                currentIP = json.ip;
-            }
-        );
-    };
-
-    getCurrentIP();
 
     // Get current time in accordance to RFC 3339
     function ISODateString(d){
@@ -80,7 +67,29 @@
 
 // Feed FraudGuard with above values
 
+        // Get user's ip
+        var currentIP = null;
+
+        var getCurrentIP = function() {
+            $.when($.ajax({
+                url: 'https://api.ipify.org?format=jsonp&callback=?',
+                async: false,
+                dataType: 'json',
+                contentType: 'application/j-son;charset=UTF-8',
+                success: function (data) {
+                    currentIP = data.ip;
+                }
+            })).then(function () {
+                console.log(currentIP);
+                startFG();
+                return currentIP;
+            });
+        }
+
+        currentIP = getCurrentIP();
+
         // Start FraudGuard
+    function startFG() {
         var _fg = window._fg = window._fg || {};
         var _purchase = {
             device: {
@@ -130,7 +139,7 @@
             ]
             };
 
-        _fg['_setAccountId'] = '42c2225b-d170-47d2-ad03-16f8c8ef5c92';
+        _fg['_setAccountId'] = '39ba52c6-1fd4-465d-945a-c0b7cb23222e';
         _fg['_setUserId'] = userID;
         _fg['_setSessionId'] = '';
         _fg['_setTrack'] = 'create_order';
@@ -144,3 +153,4 @@
             e.src = '//fraud.aletia.io/snippet/s.js',
                 f.parentNode.insertBefore(e, f);
         })(document, 'script', 'fg-beacon');
+        }

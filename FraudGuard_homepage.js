@@ -1,7 +1,7 @@
 // make cookie sharable across domains
 document.cookie = "domain=" + document.domain + "; path=/";
 
-// clear local storage
+// clear local storagee
 localStorage.clear();
 
 // log input of current field to cookie when user changes field

@@ -1,5 +1,5 @@
-// <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 // Get information required by FraudGuard
+// <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
     // Get current time in accordance to RFC 3339
     function ISODateString(d){
@@ -29,11 +29,17 @@
         return params;
     }
 
+        // shippingFee=99.00&paymentFee=0.00&charge=0.00&discount=0.00&subscriptions=41
         var query = getQueryParams(document.location.search);
         var viskan_purchaseNumber = query.purchaseNumber;
         var viskan_currency = query.currency;
         var viskan_totalValue = query.totalValue;
         var viskan_country = query.country;
+        var viskan_shippingFee = query.shippingFee;
+        var viskan_paymentFee = query.paymentFee;
+        var viskan_charge = query.charge;
+        var viskan_discount = query.discount;
+
         // var viskan_customerNumber = query.customerNumber;
 
     // Read cookie from landing page - get customer's address information
@@ -154,3 +160,30 @@
                 f.parentNode.insertBefore(e, f);
         })(document, 'script', 'fg-beacon');
         }
+
+// Google Analytics Ecommerce Tracking
+        // load ecommerce plugin
+        ga('require', 'ecommerce');
+
+        // add transaction
+        ga('ecommerce:addTransaction', {
+            'id': viskan_purchaseNumber,                     // Transaction ID. Required.
+            'affiliation': window.location.host,   // Affiliation or store name.
+            'revenue': viskan_totalValue,               // Grand Total.
+            'shipping': viskan_shippingFee,                  // Shipping.
+            'tax': '1',                     // Tax.
+            'currency': viskan_currency
+        });
+
+        // add item
+        ga('ecommerce:addItem', {
+            'id': viskan_purchaseNumber,                     // Transaction ID. Required.
+            'name': 'name',    // Product name. Required.
+            'sku': 'SKU',                 // SKU/code.
+            'category': 'Party Toys',         // Category or variation.
+            'price': viskan_totalValue,                 // Unit price.
+            'quantity': '1'                   // Quantity.
+        });
+
+        // send data
+        ga('ecommerce:send');

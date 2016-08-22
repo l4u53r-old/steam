@@ -1,0 +1,28 @@
+<script type="text/javascript">
+    // Google Analytics Ecommerce Tracking
+    // load ecommerce plugin
+    ga('require', 'ecommerce');
+
+    // add transaction
+    ga('ecommerce:addTransaction', {
+        'id': viskan_purchaseNumber,                     // Transaction ID. Required.
+        'affiliation': window.location.host,   // Affiliation or store name.
+        'revenue': viskan_totalValue,               // Grand Total.
+        'shipping': viskan_shippingFee,                  // Shipping.
+        'tax': '1',                     // Tax.
+        'currency': viskan_currency
+    });
+
+    // add item
+    ga('ecommerce:addItem', {
+        'id': viskan_purchaseNumber,                     // Transaction ID. Required.
+        'name': 'name',    // Product name. Required.
+        'sku': 'SKU',                 // SKU/code.
+        'category': 'Party Toys',         // Category or variation.
+        'price': viskan_totalValue,                 // Unit price.
+        'quantity': '1'                   // Quantity.
+    });
+
+    // send data
+    ga('ecommerce:send');
+</script>
